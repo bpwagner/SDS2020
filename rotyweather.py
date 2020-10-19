@@ -19,7 +19,7 @@ LocationStr = StringVar()
 LocationStr.set("Louisville")
 
 
-owm = pyowm.OWM('978910f354606707ef717cdf3b483575')
+owm = pyowm.OWM('put your secret here')
 observation = owm.weather_at_place(LocationStr.get())
 w = observation.get_weather()
 temp_dict = w.get_temperature('fahrenheit')
