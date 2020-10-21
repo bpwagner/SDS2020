@@ -16,7 +16,7 @@ Solution = []
 def DrawRow(currRow, row):
     offset = 20
     size = 20
-    spacing = 50
+    spacing = 25
 
     # draw the current row
     col = 0
@@ -65,11 +65,26 @@ def Delete():
 def Check():
     global currRow
     global Rows
+    tempRow = currRow.copy()
+    tempSol = Solution.copy()
     if len(currRow) == 4:
-      Rows.append(currRow)
-      currRow = []
+        # check to see if we win
+        for i in range(len(Solution)):
+            if currRow[i] == Solution[i]:
+                currRow.append('black')
+                tempSol[i] = 'X'
+                tempRow[i] = 'X'
 
-    print(Rows)
+        for i in range(len(tempRow)):
+            if tempRow[i] in tempSol and tempRow[i] != 'X':
+                currRow.append('pink')
+                tempSol.remove(tempRow[i])
+
+        Rows.append(currRow.copy())
+        currRow = []
+
+    DrawBoard()
+    #print(Rows)
     pass
 
 
@@ -80,10 +95,10 @@ root.configure(background = 'white')
 frame1 = Frame(root, bg='sky blue', bd= 10)
 frame1.pack(side=TOP)
 
-canvas1 = Canvas(frame1, width = 400, height=400)
+canvas1 = Canvas(frame1, width = 250, height=400)
 canvas1.pack()
 
-frame2 = Frame(root)
+frame2 = Frame(root )
 
 c1 = Button(frame2, text=" ", borderless=1, bg=PegColors[0], command=lambda: Color(PegColors[0]))
 c1.pack(side=LEFT)
