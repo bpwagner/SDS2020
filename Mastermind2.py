@@ -29,8 +29,8 @@ def DrawRow(currRow, row):
     pass
 
 
-def DrawBoard():
-  #canvas1.create_rectangle(30, 30, 70, 70, fill='dark green')
+def DrawBoard(status):
+  canvas1.delete(ALL)
   row = 0
 
   #draw the rows
@@ -38,14 +38,12 @@ def DrawBoard():
       DrawRow(r, row)
       row += 1
 
-  #draw the current row
-  #for pegColor in currRow:
-  #  canvas1.create_oval(60 * col, 30  * row, 60 * col+30, 60  * row +30, fill=pegColor)
-  #  col += 1
   DrawRow(currRow, row)
 
   #draw the solution... just for testing.
   DrawRow(Solution, 12)
+
+  canvas1.create_text(80,380,text = status)
   pass
 
 
@@ -54,7 +52,7 @@ def Color(c):
   global Rows5
   if len(currRow) < 4:
     currRow.append(c)
-  DrawBoard()
+  DrawBoard('keep choosing')
   pass
 
 
@@ -67,11 +65,14 @@ def Check():
     global Rows
     tempRow = currRow.copy()
     tempSol = Solution.copy()
+    totalBlack = 0
+    status = ''
     if len(currRow) == 4:
         # check to see if we win
         for i in range(len(Solution)):
             if currRow[i] == Solution[i]:
                 currRow.append('black')
+                totalBlack += 1
                 tempSol[i] = 'X'
                 tempRow[i] = 'X'
 
@@ -83,7 +84,11 @@ def Check():
         Rows.append(currRow.copy())
         currRow = []
 
-    DrawBoard()
+        if totalBlack == 4:
+            print('you win!')
+            status = 'you win!'
+
+    DrawBoard(status)
     #print(Rows)
     pass
 
@@ -130,5 +135,7 @@ frame2.pack(side=BOTTOM)
 for i in range(4):
     Solution.append(PegColors[random.randint(0,len(PegColors)-1)])
 print(Solution)
+
+DrawBoard('Choose a peg')
 
 mainloop()
